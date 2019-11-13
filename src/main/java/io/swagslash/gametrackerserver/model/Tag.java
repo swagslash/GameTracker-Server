@@ -17,4 +17,11 @@ public class Tag extends TagMS {
     )
     List<Game> games;
 
+    public List<Game> getGames() {
+        return games;
+    }
+
+    public void setGames(List<Game> games) {
+        this.games = games;
+    }
 }
