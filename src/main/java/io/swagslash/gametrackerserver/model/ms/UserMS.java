@@ -1,11 +1,11 @@
 package io.swagslash.gametrackerserver.model.ms;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.sun.istack.NotNull;
 import io.swagslash.gametrackerserver.enums.AuthProvider;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @MappedSuperclass
