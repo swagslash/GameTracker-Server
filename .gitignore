@@ -38,7 +38,7 @@ target/
 .sts4-cache
 
 ### IntelliJ IDEA ###
-.idea
+.idea/libraries
 .idea/workspace.xml
 *.iws
 *.iml
@@ -56,3 +56,7 @@ build/
 .vscode/
 
 src/main/resources/application.yaml
+
+.idea/uiDesigner.xml
+
+.idea/vcs.xml
