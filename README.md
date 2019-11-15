@@ -4,7 +4,7 @@ Backend of the GameTracker Application
 ## Setup
 The backend is configured to either use a local Postgres DB or use a Docker container powered Postgres DB
 
-> The application needs an application.yaml which can be found on your GoggleDrive. Copy and replace your local application.yaml.dummy with it.
+> The application needs an application.yaml which can be found on your GoogleDrive. Copy and replace your local application.yaml.dummy with it.
 
 ### Local DB
 In case of local DB just start your DB and adapt your connection in the application.yaml file
