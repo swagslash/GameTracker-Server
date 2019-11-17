@@ -40,6 +40,11 @@ target/
 ### IntelliJ IDEA ###
 .idea/libraries
 .idea/workspace.xml
+.idea/uiDesigner.xml
+.idea/vcs.xml
+.idea/$PRODUCT_WORKSPACE_FILE$
+.idea/.name
+.idea/discord.xml
 *.iws
 *.iml
 *.ipr
@@ -57,6 +62,4 @@ build/
 
 src/main/resources/application.yaml
 
-.idea/uiDesigner.xml
 
-.idea/vcs.xml
