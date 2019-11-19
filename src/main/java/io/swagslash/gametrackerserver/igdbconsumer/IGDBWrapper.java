@@ -1,7 +1,10 @@
 package io.swagslash.gametrackerserver.igdbconsumer;
 
 
+import io.swagslash.gametrackerserver.igdbconsumer.model.Cover;
 import io.swagslash.gametrackerserver.igdbconsumer.model.Game;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.springframework.http.*;
@@ -12,6 +15,7 @@ import org.springframework.web.client.RestTemplate;
 import java.net.URI;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Wraps parts of the IGBG v3 API
@@ -25,6 +29,8 @@ public class IGDBWrapper {
     private String apiKey;
 
     private RestTemplate restTemplate = new RestTemplate();
+
+    protected final Log logger = LogFactory.getLog(this.getClass());
 
     public IGDBWrapper(String apiKey) {
         this.apiKey = apiKey;
@@ -53,45 +59,62 @@ public class IGDBWrapper {
         }
     }
 
-    /**
-     * Get a list of games fitting the query
-     *
-     * @param query language to use: https://apicalypse.io
-     * @return
-     */
-    private List<Game> getGames(IGDBQuery query) {
-        final String uri = API_URL + "/games";
-
+    private HttpEntity<String> generateRequestForQuery(IGDBQuery query) {
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
         headers.setContentType(MediaType.TEXT_PLAIN);
         headers.set(apiHeader, apiKey);
         HttpEntity<String> entity = new HttpEntity<String>(query.toString(), headers);
+        return entity;
+    }
+
+    /**
+     * Get a list of games fitting the query
+     */
+    private List<Game> getGames(IGDBQuery query) {
+        final String uri = API_URL + "/games";
+        final HttpEntity<String> requestBody = generateRequestForQuery(query);
 
         ResponseEntity<Game[]> result = null;
         try {
-            result = restTemplate.exchange(uri, HttpMethod.GET, entity, Game[].class);
+            result = restTemplate.exchange(uri, HttpMethod.GET, requestBody, Game[].class);
         } catch (RestClientException e) {
-            e.printStackTrace();
+            logger.error("Error when contacting the IGDB API for games", e);
+            return null;
         }
 
-        return Arrays.asList(result.getBody());
+        return Arrays.asList(Objects.requireNonNull(result.getBody()));
     }
 
-    public static void main(String[] args) {
-        IGDBWrapper consumer = new IGDBWrapper("26a20509aca971d614544cdec65f28e0");
-        IGDBQuery query = new IGDBQuery();
-        query.addField("name");
-        query.addField("cover");
-        query.addField("game_modes");
-        consumer.getGames(query);
-        List<Game> csgo = consumer.searchGames("cs1.6");
-        System.out.println("done");
+    private List<Cover> getCover(IGDBQuery query) {
+        final String uri = API_URL + "/covers";
+        final HttpEntity<String> requestBody = generateRequestForQuery(query);
+
+        ResponseEntity<Cover[]> result = null;
+        try {
+            result = restTemplate.exchange(uri, HttpMethod.GET, requestBody, Cover[].class);
+        } catch (RestClientException e) {
+            logger.error("Error when contacting the IGDB API for covers", e);
+            return null;
+        }
+
+        return Arrays.asList(Objects.requireNonNull(result.getBody()));
     }
+
 
     public List<Game> searchGames(String searchTerm) {
         IGDBQuery query = new IGDBQuery();
         query.setSearch(searchTerm);
         return getGames(query);
+    }
+
+    public List<Cover> getCover(Game game) {
+        return getCover(game.getCover());
+    }
+
+    public List<Cover> getCover(Integer coverId) {
+        IGDBQuery query = new IGDBQuery();
+        query.setWhere("id=" + coverId);
+        return getCover(query);
     }
 }

@@ -46,4 +46,9 @@ public class Game {
     public void setGame_modes(int[] game_modes) {
         this.game_modes = game_modes;
     }
+
+    @Override
+    public String toString() {
+        return "{ ID: " + id + "; Name: " + name + "; Cover: " + cover + " }";
+    }
 }
