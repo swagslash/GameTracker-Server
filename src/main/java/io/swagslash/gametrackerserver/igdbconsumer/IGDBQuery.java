@@ -63,7 +63,8 @@ public class IGDBQuery {
     }
 
     public String fieldQuery() {
-        return "fields " + Strings.join(fields, ',') + ";";
+        String chosenFields = fields.isEmpty() ? "*" : Strings.join(fields, ',');
+        return "fields " + chosenFields + ";";
     }
 
     @Override
