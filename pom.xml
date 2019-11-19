@@ -11,7 +11,7 @@
     <groupId>io.swagslash</groupId>
     <artifactId>gametrackerserver</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>gametrackerserver</name>
+    <name>GameTracker-Server</name>
     <description>Backend for GameTracker Application</description>
 
     <properties>

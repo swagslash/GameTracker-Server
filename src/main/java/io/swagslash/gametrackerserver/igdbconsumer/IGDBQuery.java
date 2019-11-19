@@ -1,5 +1,7 @@
 package io.swagslash.gametrackerserver.igdbconsumer;
 
+import org.apache.logging.log4j.util.Strings;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,22 +62,14 @@ public class IGDBQuery {
         this.where = where;
     }
 
+    public String fieldQuery() {
+        return "fields " + Strings.join(fields, ',') + ";";
+    }
+
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        builder.append("fields ");
-        if (fields.isEmpty()) {
-            builder.append("*");
-        } else {
-            for (int i = 0; i < fields.size(); i++) {
-                if (i == fields.size() - 1) {
-                    builder.append(fields.get(i) + "");
-                } else {
-                    builder.append(fields.get(i) + ", ");
-                }
-            }
-        }
-        builder.append(";");
+        builder.append(fieldQuery());
         if (!where.isBlank()) {
             builder.append("where ").append(where.trim()).append(";");
         }
