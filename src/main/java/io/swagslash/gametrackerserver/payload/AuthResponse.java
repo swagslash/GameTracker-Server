@@ -4,11 +4,18 @@ public class AuthResponse {
     private String accessToken;
     private String tokenType = "Bearer";
     private String username;
-    private int expiresIn;
+    private long expiresIn;
     private String email;
 
     public AuthResponse(String accessToken) {
         this.accessToken = accessToken;
+    }
+
+    public AuthResponse(String accessToken, String username, long expiresIn, String email) {
+        this.accessToken = accessToken;
+        this.username = username;
+        this.expiresIn = expiresIn;
+        this.email = email;
     }
 
     public String getUsername() {
@@ -19,7 +26,7 @@ public class AuthResponse {
         this.username = username;
     }
 
-    public int getExpiresIn() {
+    public long getExpiresIn() {
         return expiresIn;
     }
 
