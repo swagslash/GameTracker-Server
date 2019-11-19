@@ -49,8 +49,9 @@ public class AuthController {
         );
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-
+        SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String token = tokenProvider.createToken(authentication);
+
         return ResponseEntity.ok(new AuthResponse(token));
     }
 
@@ -62,7 +63,7 @@ public class AuthController {
 
         // Creating user's account
         User user = new User();
-        user.setName(signUpRequest.getName());
+        user.setUsername(signUpRequest.getUsername());
         user.setEmail(signUpRequest.getEmail());
         user.setPassword(signUpRequest.getPassword());
         user.setProvider(AuthProvider.local);

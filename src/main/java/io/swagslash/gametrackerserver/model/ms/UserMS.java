@@ -16,7 +16,7 @@ public class UserMS implements Serializable {
     private Long id;
 
     @Column(nullable = false)
-    private String name;
+    private String username;
 
     @Email
     @Column(nullable = false)
@@ -40,12 +40,12 @@ public class UserMS implements Serializable {
         return id;
     }
 
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getEmail() {
