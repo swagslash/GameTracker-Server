@@ -38,6 +38,14 @@ public class IGDBWrapper {
         this.restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestWithBodyFactory());
     }
 
+    public RestTemplate getRestTemplate() {
+        return restTemplate;
+    }
+
+    public void setRestTemplate(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
+
     private static final class HttpComponentsClientHttpRequestWithBodyFactory extends HttpComponentsClientHttpRequestFactory {
         @Override
         protected HttpUriRequest createHttpUriRequest(HttpMethod httpMethod, URI uri) {

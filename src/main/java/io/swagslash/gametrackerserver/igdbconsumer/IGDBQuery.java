@@ -29,10 +29,6 @@ public class IGDBQuery {
         return fields;
     }
 
-    public void setFields(List<String> fields) {
-        this.fields = fields;
-    }
-
     public void addField(String field) {
         this.fields.add(field);
     }
@@ -78,7 +74,7 @@ public class IGDBQuery {
             builder.append("search \"").append(search.trim()).append("\";");
         }
         if (!sort.isBlank()) {
-            builder.append("sort ").append(sort.trim()).append(desc ? "desc" : "asc").append(";");
+            builder.append("sort ").append(sort.trim()).append(desc ? " desc" : " asc").append(";");
         }
         return builder.toString();
     }
