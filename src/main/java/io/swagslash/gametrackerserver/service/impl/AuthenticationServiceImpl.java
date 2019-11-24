@@ -46,7 +46,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         }
 
         User user = createUser(request);
-        String token = getTokenForUser(user);
+        String token = getTokenForRequest(request);
 
         return new AuthResponse(token, user.getUsername(), appProperties.getAuth().getTokenExpirationMsec(), user.getEmail());
     }
@@ -54,13 +54,18 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public AuthResponse loginUser(LoginRequest request) {
         User user = userRepository.findByEmail(request.getEmail()).get();
-        String token = getTokenForUser(user);
+        String token = getTokenForRequest(request);
 
         return new AuthResponse(token, user.getUsername(), appProperties.getAuth().getTokenExpirationMsec(), user.getEmail());
     }
 
-    private String getTokenForUser(User user) {
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
+    private String getTokenForRequest(LoginRequest request) {
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        request.getEmail(),
+                        request.getPassword()
+                )
+        );
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         return tokenProvider.createToken(authentication);
