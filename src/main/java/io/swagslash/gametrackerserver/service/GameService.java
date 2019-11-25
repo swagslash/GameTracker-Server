@@ -7,4 +7,6 @@ import java.util.List;
 public interface GameService {
 
     List<GameDTO> findAll();
+
+    List<GameDTO> findAllByUser();
 }

@@ -21,8 +21,14 @@ public class WebappController {
 
     @GetMapping("/games")
     @PreAuthorize("hasRole('USER')")
-    public List<GameDTO> index() {
+    public List<GameDTO> findAll() {
        return gameService.findAll();
+    }
+
+    @GetMapping("/games/user")
+    @PreAuthorize("hasRole('USER')")
+    public List<GameDTO> findAllByUser() {
+        return gameService.findAllByUser();
     }
 
 }
