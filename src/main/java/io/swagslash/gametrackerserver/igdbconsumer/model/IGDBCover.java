@@ -1,6 +1,6 @@
 package io.swagslash.gametrackerserver.igdbconsumer.model;
 
-public class Cover {
+public class IGDBCover {
     boolean alpha_channel;
     boolean animated;
     int game; // The game this cover is associated with
