@@ -4,6 +4,7 @@ import io.swagslash.gametrackerserver.dto.GameDTO;
 import io.swagslash.gametrackerserver.service.GameService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,6 +30,12 @@ public class WebappController {
     @PreAuthorize("hasRole('USER')")
     public List<GameDTO> findAllByUser() {
         return gameService.findAllByUser();
+    }
+
+    @GetMapping("/games/user/{term}")
+    @PreAuthorize("hasRole('USER')")
+    public List<GameDTO> findBySearch(@PathVariable String term) {
+        return gameService.findBySearch(term);
     }
 
 }

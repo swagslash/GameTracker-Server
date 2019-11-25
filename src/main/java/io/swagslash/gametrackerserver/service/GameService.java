@@ -9,4 +9,6 @@ public interface GameService {
     List<GameDTO> findAll();
 
     List<GameDTO> findAllByUser();
+
+    List<GameDTO> findBySearch(String term);
 }
