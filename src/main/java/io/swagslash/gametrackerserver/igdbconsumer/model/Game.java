@@ -12,7 +12,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class Game {
     private int id;
     private String name;
-    private Integer cover;
+    private int cover;
+    private int[] genres;
     private int[] game_modes;
 
     public int getId() {
@@ -45,6 +46,14 @@ public class Game {
 
     public void setGame_modes(int[] game_modes) {
         this.game_modes = game_modes;
+    }
+
+    public int[] getGenres() {
+        return genres;
+    }
+
+    public void setGenres(int[] genres) {
+        this.genres = genres;
     }
 
     @Override
