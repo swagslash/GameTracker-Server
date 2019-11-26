@@ -1,13 +1,13 @@
 package io.swagslash.gametrackerserver.igdbconsumer.model;
 
-public class Cover {
-    boolean alpha_channel;
-    boolean animated;
-    int game; // The game this cover is associated with
-    int height; // The height of the image in pixels
-    String image_id; // The ID of the image used to construct an IGDB image link
-    String url;
-    int width;
+public class IGDBCover {
+    private boolean alpha_channel;
+    private boolean animated;
+    private int game; // The game this cover is associated with
+    private int height; // The height of the image in pixels
+    private String image_id; // The ID of the image used to construct an IGDB image link
+    private String url;
+    private int width;
 
     public boolean isAlpha_channel() {
         return alpha_channel;

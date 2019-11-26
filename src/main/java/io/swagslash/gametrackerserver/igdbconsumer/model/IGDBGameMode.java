@@ -1,8 +1,8 @@
 package io.swagslash.gametrackerserver.igdbconsumer.model;
 
-public class Genre {
-    String name;
-    String slug;
+public class IGDBGameMode {
+    private String name;
+    private String slug;
 
     public String getName() {
         return name;
@@ -22,6 +22,6 @@ public class Genre {
 
     @Override
     public String toString() {
-        return "{ Genre: " + this.name + " }";
+        return "{ GameMode: " + this.name + " }";
     }
 }

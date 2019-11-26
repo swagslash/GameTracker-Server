@@ -1,21 +1,21 @@
 package io.swagslash.gametrackerserver.igdbconsumer;
 
-import io.swagslash.gametrackerserver.igdbconsumer.model.Cover;
-import io.swagslash.gametrackerserver.igdbconsumer.model.Game;
-import io.swagslash.gametrackerserver.igdbconsumer.model.GameMode;
-import io.swagslash.gametrackerserver.igdbconsumer.model.Genre;
+import io.swagslash.gametrackerserver.igdbconsumer.model.IGDBCover;
+import io.swagslash.gametrackerserver.igdbconsumer.model.IGDBGame;
+import io.swagslash.gametrackerserver.igdbconsumer.model.IGDBGameMode;
+import io.swagslash.gametrackerserver.igdbconsumer.model.IGDBGenre;
 
 import java.util.List;
 
 public interface IGDBApi {
 
-    List<Game> getGames(IGDBQuery query);
+    List<IGDBGame> getGames(IGDBQuery query);
 
-    List<GameMode> getGameModes(Game game);
+    List<IGDBGameMode> getGameModes(IGDBGame game);
 
-    List<Genre> getGenres(Game game);
+    List<IGDBGenre> getGenres(IGDBGame game);
 
-    Cover getCover(Game game);
+    IGDBCover getCover(IGDBGame game);
 
-    List<Game> searchGames(String searchTerm);
+    List<IGDBGame> searchGames(String searchTerm);
 }

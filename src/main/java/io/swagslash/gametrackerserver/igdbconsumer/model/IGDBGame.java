@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  * @Author: Christoph Wedenig (christoph@wedenig.org)
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Game {
+public class IGDBGame {
     private int id;
     private String name;
     private int cover;

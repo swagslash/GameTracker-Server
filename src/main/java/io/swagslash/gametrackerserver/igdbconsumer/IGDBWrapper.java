@@ -1,10 +1,10 @@
 package io.swagslash.gametrackerserver.igdbconsumer;
 
 
-import io.swagslash.gametrackerserver.igdbconsumer.model.Cover;
-import io.swagslash.gametrackerserver.igdbconsumer.model.Game;
-import io.swagslash.gametrackerserver.igdbconsumer.model.GameMode;
-import io.swagslash.gametrackerserver.igdbconsumer.model.Genre;
+import io.swagslash.gametrackerserver.igdbconsumer.model.IGDBCover;
+import io.swagslash.gametrackerserver.igdbconsumer.model.IGDBGame;
+import io.swagslash.gametrackerserver.igdbconsumer.model.IGDBGameMode;
+import io.swagslash.gametrackerserver.igdbconsumer.model.IGDBGenre;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
@@ -16,6 +16,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -33,7 +34,7 @@ public class IGDBWrapper implements IGDBApi {
 
     private RestTemplate restTemplate = new RestTemplate();
 
-    protected final Log logger = LogFactory.getLog(this.getClass());
+    private final Log logger = LogFactory.getLog(this.getClass());
 
     public IGDBWrapper(String apiKey) {
         this.apiKey = apiKey;
@@ -72,23 +73,22 @@ public class IGDBWrapper implements IGDBApi {
 
     private HttpEntity<String> generateRequestForQuery(IGDBQuery query) {
         HttpHeaders headers = new HttpHeaders();
-        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
         headers.setContentType(MediaType.TEXT_PLAIN);
         headers.set(apiHeader, apiKey);
-        HttpEntity<String> entity = new HttpEntity<String>(query.toString(), headers);
-        return entity;
+        return new HttpEntity<>(query.toString(), headers);
     }
 
     /**
      * Get a list of games fitting the query
      */
-    public List<Game> getGames(IGDBQuery query) {
+    public List<IGDBGame> getGames(IGDBQuery query) {
         final String uri = API_URL + "/games";
         final HttpEntity<String> requestBody = generateRequestForQuery(query);
 
-        ResponseEntity<Game[]> result = null;
+        ResponseEntity<IGDBGame[]> result;
         try {
-            result = restTemplate.exchange(uri, HttpMethod.GET, requestBody, Game[].class);
+            result = restTemplate.exchange(uri, HttpMethod.GET, requestBody, IGDBGame[].class);
         } catch (RestClientException e) {
             logger.error("Error when contacting the IGDB API for games", e);
             return null;
@@ -97,13 +97,13 @@ public class IGDBWrapper implements IGDBApi {
         return Arrays.asList(Objects.requireNonNull(result.getBody()));
     }
 
-    private List<Cover> getCovers(IGDBQuery query) {
+    private List<IGDBCover> getCovers(IGDBQuery query) {
         final String uri = API_URL + "/covers";
         final HttpEntity<String> requestBody = generateRequestForQuery(query);
 
-        ResponseEntity<Cover[]> result = null;
+        ResponseEntity<IGDBCover[]> result;
         try {
-            result = restTemplate.exchange(uri, HttpMethod.GET, requestBody, Cover[].class);
+            result = restTemplate.exchange(uri, HttpMethod.GET, requestBody, IGDBCover[].class);
         } catch (RestClientException e) {
             logger.error("Error when contacting the IGDB API for covers", e);
             return null;
@@ -113,29 +113,32 @@ public class IGDBWrapper implements IGDBApi {
     }
 
 
-    public List<Game> searchGames(String searchTerm) {
+    public List<IGDBGame> searchGames(String searchTerm) {
         IGDBQuery query = new IGDBQuery();
         query.setSearch(searchTerm);
         return getGames(query);
     }
 
-    public Cover getCover(Game game) {
+    public IGDBCover getCover(IGDBGame game) {
         return getCover(game.getCover());
     }
 
-    public Cover getCover(Integer coverId) {
+    public IGDBCover getCover(Integer coverId) {
         IGDBQuery query = new IGDBQuery();
         query.setWhere("id=" + coverId);
-        return getCovers(query).get(0);
+        List<IGDBCover> covers = getCovers(query);
+        assert covers != null;
+        if (!covers.isEmpty()) return covers.get(0);
+        else return null;
     }
 
-    private List<GameMode> getGameModes(IGDBQuery query) {
+    private List<IGDBGameMode> getGameModes(IGDBQuery query) {
         final String uri = API_URL + "/game_modes";
         final HttpEntity<String> requestBody = generateRequestForQuery(query);
 
-        ResponseEntity<GameMode[]> result = null;
+        ResponseEntity<IGDBGameMode[]> result = null;
         try {
-            result = restTemplate.exchange(uri, HttpMethod.GET, requestBody, GameMode[].class);
+            result = restTemplate.exchange(uri, HttpMethod.GET, requestBody, IGDBGameMode[].class);
         } catch (RestClientException e) {
             logger.error("Error when contacting the IGDB API for gamemodes", e);
             return null;
@@ -144,7 +147,7 @@ public class IGDBWrapper implements IGDBApi {
         return Arrays.asList(Objects.requireNonNull(result.getBody()));
     }
 
-    public List<GameMode> getGameModes(Game game) {
+    public List<IGDBGameMode> getGameModes(IGDBGame game) {
         IGDBQuery query = new IGDBQuery();
 
         String whereString = Arrays.stream(game.getGame_modes())
@@ -155,13 +158,13 @@ public class IGDBWrapper implements IGDBApi {
         return getGameModes(query);
     }
 
-    private List<Genre> getGenres(IGDBQuery query) {
+    private List<IGDBGenre> getGenres(IGDBQuery query) {
         final String uri = API_URL + "/genres";
         final HttpEntity<String> requestBody = generateRequestForQuery(query);
 
-        ResponseEntity<Genre[]> result = null;
+        ResponseEntity<IGDBGenre[]> result;
         try {
-            result = restTemplate.exchange(uri, HttpMethod.GET, requestBody, Genre[].class);
+            result = restTemplate.exchange(uri, HttpMethod.GET, requestBody, IGDBGenre[].class);
         } catch (RestClientException e) {
             logger.error("Error when contacting the IGDB API for genres", e);
             return null;
@@ -170,7 +173,7 @@ public class IGDBWrapper implements IGDBApi {
         return Arrays.asList(Objects.requireNonNull(result.getBody()));
     }
 
-    public List<Genre> getGenres(Game game) {
+    public List<IGDBGenre> getGenres(IGDBGame game) {
         IGDBQuery query = new IGDBQuery();
 
         String whereString = Arrays.stream(game.getGenres())
