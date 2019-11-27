@@ -64,4 +64,17 @@ public class IGDBCover {
     public void setWidth(int width) {
         this.width = width;
     }
+
+    @Override
+    public String toString() {
+        return "IGDBCover{" +
+                "alpha_channel=" + alpha_channel +
+                ", animated=" + animated +
+                ", game=" + game +
+                ", height=" + height +
+                ", image_id='" + image_id + '\'' +
+                ", url='" + url + '\'' +
+                ", width=" + width +
+                '}';
+    }
 }

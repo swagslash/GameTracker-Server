@@ -22,6 +22,9 @@ public class IGDBGenre {
 
     @Override
     public String toString() {
-        return "{ Genre: " + this.name + " }";
+        return "IGDBGenre{" +
+                "name='" + name + '\'' +
+                ", slug='" + slug + '\'' +
+                '}';
     }
 }

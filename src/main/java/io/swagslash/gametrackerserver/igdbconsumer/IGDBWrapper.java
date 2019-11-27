@@ -126,7 +126,6 @@ public class IGDBWrapper implements IGDBApi {
         IGDBQuery query = new IGDBQuery();
         query.setWhere("id=" + coverId);
         List<IGDBCover> covers = getCovers(query);
-        assert covers != null;
         if (!covers.isEmpty()) return covers.get(0);
         else return null;
     }
@@ -135,7 +134,7 @@ public class IGDBWrapper implements IGDBApi {
         final String uri = API_URL + "/game_modes";
         final HttpEntity<String> requestBody = generateRequestForQuery(query);
 
-        ResponseEntity<IGDBGameMode[]> result = null;
+        ResponseEntity<IGDBGameMode[]> result;
         try {
             result = restTemplate.exchange(uri, HttpMethod.GET, requestBody, IGDBGameMode[].class);
         } catch (RestClientException e) {

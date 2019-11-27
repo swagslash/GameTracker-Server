@@ -22,6 +22,9 @@ public class IGDBGameMode {
 
     @Override
     public String toString() {
-        return "{ GameMode: " + this.name + " }";
+        return "IGDBGameMode{" +
+                "name='" + name + '\'' +
+                ", slug='" + slug + '\'' +
+                '}';
     }
 }
