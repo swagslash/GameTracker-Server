@@ -19,7 +19,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 /**
  * Wraps parts of the IGBG v3 API
@@ -149,12 +148,7 @@ public class IGDBWrapper implements IGDBApi {
 
     public List<IGDBGameMode> getGameModes(IGDBGame game) {
         IGDBQuery query = new IGDBQuery();
-
-        String whereString = Arrays.stream(game.getGame_modes())
-                .mapToObj(i -> "id=" + i)
-                .collect(Collectors.joining("|"));
-
-        query.setWhere(whereString);
+        query.whereFieldEqualsAtLeastOne("id", game.getGame_modes());
         return getGameModes(query);
     }
 
@@ -175,12 +169,7 @@ public class IGDBWrapper implements IGDBApi {
 
     public List<IGDBGenre> getGenres(IGDBGame game) {
         IGDBQuery query = new IGDBQuery();
-
-        String whereString = Arrays.stream(game.getGenres())
-                .mapToObj(i -> "id=" + i)
-                .collect(Collectors.joining("|"));
-
-        query.setWhere(whereString);
+        query.whereFieldEqualsAtLeastOne("id", game.getGenres());
         return getGenres(query);
     }
 }
