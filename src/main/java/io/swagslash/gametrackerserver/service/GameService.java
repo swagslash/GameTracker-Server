@@ -1,6 +1,6 @@
 package io.swagslash.gametrackerserver.service;
 
-import io.swagslash.gametrackerserver.dto.GameDTO;
+import io.swagslash.gametrackerserver.dto.webapp.GameDTO;
 
 import java.util.List;
 

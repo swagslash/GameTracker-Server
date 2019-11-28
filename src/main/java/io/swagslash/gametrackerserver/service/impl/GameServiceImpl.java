@@ -1,8 +1,7 @@
 package io.swagslash.gametrackerserver.service.impl;
 
 import io.swagslash.gametrackerserver.config.AppProperties;
-import io.swagslash.gametrackerserver.dto.GameDTO;
-import io.swagslash.gametrackerserver.igdbconsumer.IGDBQuery;
+import io.swagslash.gametrackerserver.dto.webapp.GameDTO;
 import io.swagslash.gametrackerserver.igdbconsumer.IGDBWrapper;
 import io.swagslash.gametrackerserver.igdbconsumer.model.IGDBGame;
 import io.swagslash.gametrackerserver.model.Game;

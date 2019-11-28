@@ -1,4 +1,4 @@
-package io.swagslash.gametrackerserver.dto;
+package io.swagslash.gametrackerserver.dto.webapp;
 
 public class GameDTO {
 

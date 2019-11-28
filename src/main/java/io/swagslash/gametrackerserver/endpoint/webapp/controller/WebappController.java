@@ -1,6 +1,6 @@
 package io.swagslash.gametrackerserver.endpoint.webapp.controller;
 
-import io.swagslash.gametrackerserver.dto.GameDTO;
+import io.swagslash.gametrackerserver.dto.webapp.GameDTO;
 import io.swagslash.gametrackerserver.service.GameService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
