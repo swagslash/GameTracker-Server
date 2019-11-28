@@ -4,19 +4,24 @@ import io.swagslash.gametrackerserver.config.AppProperties;
 import io.swagslash.gametrackerserver.enums.AuthProvider;
 import io.swagslash.gametrackerserver.enums.ResponseError;
 import io.swagslash.gametrackerserver.exception.BadRequestException;
+import io.swagslash.gametrackerserver.model.AgentToken;
 import io.swagslash.gametrackerserver.model.User;
 import io.swagslash.gametrackerserver.payload.AuthResponse;
 import io.swagslash.gametrackerserver.payload.LoginRequest;
 import io.swagslash.gametrackerserver.payload.SignUpRequest;
+import io.swagslash.gametrackerserver.repository.AgentTokenRepository;
 import io.swagslash.gametrackerserver.repository.UserRepository;
 import io.swagslash.gametrackerserver.security.TokenProvider;
 import io.swagslash.gametrackerserver.service.AuthenticationService;
+import io.swagslash.gametrackerserver.service.UserService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 @Service
 public class AuthenticationServiceImpl implements AuthenticationService {
@@ -31,12 +36,18 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     private TokenProvider tokenProvider;
 
-    public AuthenticationServiceImpl(UserRepository userRepository, AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder, AppProperties appProperties, TokenProvider tokenProvider) {
+    private UserService userService;
+
+    private AgentTokenRepository tokenRepository;
+
+    public AuthenticationServiceImpl(UserRepository userRepository, AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder, AppProperties appProperties, TokenProvider tokenProvider, UserService userService, AgentTokenRepository tokenRepository) {
         this.userRepository = userRepository;
         this.authenticationManager = authenticationManager;
         this.passwordEncoder = passwordEncoder;
         this.appProperties = appProperties;
         this.tokenProvider = tokenProvider;
+        this.userService = userService;
+        this.tokenRepository = tokenRepository;
     }
 
     @Override
@@ -57,6 +68,27 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         String token = getTokenForRequest(request);
 
         return new AuthResponse(token, user.getUsername(), appProperties.getAuth().getTokenExpirationMsec(), user.getEmail());
+    }
+
+    @Override
+    public boolean isValidAgentKey(String key) throws BadRequestException {
+        AgentToken token = tokenRepository.findByToken(key);
+        if(token == null) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String getAgentToken() throws BadRequestException {
+        AgentToken token = new AgentToken();
+        User user = userService.getCurrentUser();
+
+        token.setUserId(user.getUserId());
+        token.setToken(UUID.randomUUID().toString());
+        tokenRepository.save(token);
+
+        return token.getToken();
     }
 
     private String getTokenForRequest(LoginRequest request) {
