@@ -1,5 +1,8 @@
 package io.swagslash.gametrackerserver.dto.webapp;
 
+/**
+ * DTO for delivering data to Frontend
+ */
 public class GameDTO {
 
     private String name;

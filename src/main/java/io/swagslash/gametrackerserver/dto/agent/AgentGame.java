@@ -1,5 +1,8 @@
 package io.swagslash.gametrackerserver.dto.agent;
 
+/**
+ * DTO for Games provided by the Agent
+ */
 public class AgentGame {
 
     private String gameName;

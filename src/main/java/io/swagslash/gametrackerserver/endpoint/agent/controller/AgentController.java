@@ -22,7 +22,7 @@ public class AgentController {
         if(!authenticationService.isValidAgentKey(key)){
             throw new BadRequestException("Invalid key");
         }
-
+        //TODO: Implement Manageing Games
         return "success";
     }
 }
