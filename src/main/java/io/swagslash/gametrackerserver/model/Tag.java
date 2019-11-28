@@ -3,6 +3,7 @@ package io.swagslash.gametrackerserver.model;
 import io.swagslash.gametrackerserver.model.ms.TagMS;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -15,7 +16,11 @@ public class Tag extends TagMS {
             joinColumns = @JoinColumn(name = "dbTagId"),
             inverseJoinColumns = @JoinColumn(name = "dbGameId")
     )
-    List<Game> games;
+    private List<Game> games;
+
+    public Tag() {
+        games = new ArrayList<>();
+    }
 
     public List<Game> getGames() {
         return games;

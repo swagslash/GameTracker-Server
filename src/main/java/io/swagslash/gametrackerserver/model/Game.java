@@ -5,6 +5,7 @@ import io.swagslash.gametrackerserver.model.ms.GameMS;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -12,10 +13,15 @@ import java.util.List;
 public class Game extends GameMS {
 
     @ManyToMany(mappedBy = "games")
-    List<Tag> tags;
+    private List<Tag> tags;
 
     @ManyToMany(mappedBy = "games")
-    List<User> users;
+    private List<User> users;
+
+    public Game() {
+        tags = new ArrayList<>();
+        users = new ArrayList<>();
+    }
 
     public List<Tag> getTags() {
         return tags;
