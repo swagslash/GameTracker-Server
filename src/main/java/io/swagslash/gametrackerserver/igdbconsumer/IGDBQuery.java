@@ -3,7 +3,9 @@ package io.swagslash.gametrackerserver.igdbconsumer;
 import org.apache.logging.log4j.util.Strings;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Represents a query for use for IGDBWrapper
@@ -61,6 +63,12 @@ public class IGDBQuery {
     public String fieldQuery() {
         String chosenFields = fields.isEmpty() ? "*" : Strings.join(fields, ',');
         return "fields " + chosenFields + ";";
+    }
+
+    public void whereFieldEqualsAtLeastOne(String field, int[] values) {
+        this.where += Arrays.stream(values)
+                .mapToObj(i -> field + "=" + i)
+                .collect(Collectors.joining("|"));
     }
 
     @Override
