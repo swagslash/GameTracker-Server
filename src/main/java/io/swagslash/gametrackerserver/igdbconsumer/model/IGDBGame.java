@@ -2,6 +2,8 @@ package io.swagslash.gametrackerserver.igdbconsumer.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.util.Arrays;
+
 /**
  * Minimalistic model of a Game
  * from IGDB
@@ -12,7 +14,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class IGDBGame {
     private int id;
     private String name;
-    private Integer cover;
+    private int cover;
+    private int[] genres;
     private int[] game_modes;
 
     public int getId() {
@@ -47,8 +50,22 @@ public class IGDBGame {
         this.game_modes = game_modes;
     }
 
+    public int[] getGenres() {
+        return genres;
+    }
+
+    public void setGenres(int[] genres) {
+        this.genres = genres;
+    }
+
     @Override
     public String toString() {
-        return "{ ID: " + id + "; Name: " + name + "; Cover: " + cover + " }";
+        return "IGDBGame{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", cover=" + cover +
+                ", genres=" + Arrays.toString(genres) +
+                ", game_modes=" + Arrays.toString(game_modes) +
+                '}';
     }
 }
