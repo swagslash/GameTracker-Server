@@ -5,13 +5,18 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class for accessing application propertiers speficied in Application.yaml
+ */
 @ConfigurationProperties(prefix = "app")
 public class AppProperties {
+
     private final Auth auth = new Auth();
     private final OAuth2 oauth2 = new OAuth2();
     private final IGDB igdb = new IGDB();
 
     public static class Auth {
+
         private String tokenSecret;
         private long tokenExpirationMsec;
 
@@ -45,7 +50,7 @@ public class AppProperties {
         }
     }
 
-    public static  final class IGDB {
+    public static final class IGDB {
         private String key;
 
         public String getKey() {
