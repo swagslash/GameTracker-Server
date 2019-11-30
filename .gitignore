@@ -62,3 +62,9 @@ build/
 
 src/main/resources/application.yaml
 
+
+.idea/compiler.xml
+
+.idea/misc.xml
+
+.idea/modules.xml
