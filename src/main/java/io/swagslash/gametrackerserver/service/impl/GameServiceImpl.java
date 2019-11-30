@@ -2,6 +2,7 @@ package io.swagslash.gametrackerserver.service.impl;
 
 import io.swagslash.gametrackerserver.config.AppProperties;
 import io.swagslash.gametrackerserver.dto.webapp.GameDTO;
+import io.swagslash.gametrackerserver.igdbconsumer.IGDBApi;
 import io.swagslash.gametrackerserver.igdbconsumer.IGDBWrapper;
 import io.swagslash.gametrackerserver.igdbconsumer.model.IGDBGame;
 import io.swagslash.gametrackerserver.model.Game;
@@ -21,6 +22,8 @@ public class GameServiceImpl implements GameService {
     GameRepository gameRepository;
 
     UserService userService;
+
+    IGDBApi igdb;
 
     public GameServiceImpl(AppProperties appProperties, GameRepository gameRepository, UserService userService) {
         this.appProperties = appProperties;
@@ -52,11 +55,18 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public List<GameDTO> findBySearch(String term) {
-        IGDBWrapper igdbWrapper = new IGDBWrapper(appProperties.getIgdb().getKey());
-        List<IGDBGame> games = igdbWrapper.searchGames(term);
-        List<GameDTO> dtos = new ArrayList<>();
+        igdb = new IGDBWrapper(appProperties.getIgdb().getKey());
+        List<IGDBGame> games;
 
+        try {
+            games = igdb.searchGames(term);
+        } catch (Exception e) {
+            games = new ArrayList<>();
+        }
+
+        List<GameDTO> dtos = new ArrayList<>();
         for (IGDBGame game : games) {
+
             dtos.add(igdbGameToDTO(game));
         }
 
