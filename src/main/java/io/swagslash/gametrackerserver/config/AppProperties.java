@@ -15,6 +15,9 @@ public class AppProperties {
     private final OAuth2 oauth2 = new OAuth2();
     private final IGDB igdb = new IGDB();
 
+    /**
+     * Maps Auth section of application.yaml
+     */
     public static class Auth {
 
         private String tokenSecret;
@@ -37,6 +40,9 @@ public class AppProperties {
         }
     }
 
+    /**
+     * Maps all third party information for oauth2 authentication from application.yaml
+     */
     public static final class OAuth2 {
         private List<String> authorizedRedirectUris = new ArrayList<>();
 
@@ -50,6 +56,9 @@ public class AppProperties {
         }
     }
 
+    /**
+     * Maps IGDB section of application.yaml
+     */
     public static final class IGDB {
         private String key;
 
