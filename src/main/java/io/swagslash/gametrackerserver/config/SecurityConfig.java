@@ -24,7 +24,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 /**
  * Security Configuration for Spring Boot
- * If api endpoint should be available wihtout Authentication specify Exception in this file
+ * If api endpoint should be available without Authentication specify Exception in this file
  */
 @Configuration
 @EnableWebSecurity
@@ -111,7 +111,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     "/**/*.css",
                     "/**/*.js")
             .permitAll()
-            .antMatchers("/api/auth/**", "/api/oauth2/**", "/api/agent/**")
+            .antMatchers("/api/auth/**", "/oauth2/**", "/api/agent/**")
             .permitAll()
             .anyRequest()
             .authenticated()
