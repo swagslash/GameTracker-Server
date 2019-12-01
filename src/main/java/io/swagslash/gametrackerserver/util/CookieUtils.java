@@ -1,6 +1,7 @@
 package io.swagslash.gametrackerserver.util;
 
 import org.springframework.util.SerializationUtils;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

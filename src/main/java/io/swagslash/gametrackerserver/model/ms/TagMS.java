@@ -21,9 +21,6 @@ public class TagMS implements Serializable {
     private UUID tagId;
 
     @NotBlank
-    private UUID dbTagId;
-
-    @NotBlank
     private String name;
 
     @NotBlank
@@ -31,14 +28,6 @@ public class TagMS implements Serializable {
 
     public UUID getTagId() {
         return tagId;
-    }
-
-    public UUID getDbTagId() {
-        return dbTagId;
-    }
-
-    public void setDbTagId(UUID dbTagId) {
-        this.dbTagId = dbTagId;
     }
 
     public String getName() {

@@ -2,18 +2,24 @@ package io.swagslash.gametrackerserver.model.ms;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagslash.gametrackerserver.enums.AuthProvider;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.UUID;
 
 @MappedSuperclass
 public class UserMS implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+            name = "UUID",
+            strategy = "org.hibernate.id.UUIDGenerator"
+    )
+    private UUID userId;
 
     @Column(nullable = false)
     private String username;
@@ -36,8 +42,8 @@ public class UserMS implements Serializable {
 
     private String providerId;
 
-    public Long getId() {
-        return id;
+    public UUID getUserId() {
+        return userId;
     }
 
     public String getUsername() {
