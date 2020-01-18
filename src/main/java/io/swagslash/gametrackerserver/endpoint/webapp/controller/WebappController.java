@@ -23,7 +23,7 @@ public class WebappController {
         return gameService.findAllByUser();
     }
 
-    @GetMapping("/games/search")
+    @PostMapping("/games/search")
     @PreAuthorize("hasRole('USER')")
     public List<GameDTO> findBySearch(@RequestParam String term) {
         return gameService.findBySearch(term);

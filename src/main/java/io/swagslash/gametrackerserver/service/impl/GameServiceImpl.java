@@ -2,13 +2,17 @@ package io.swagslash.gametrackerserver.service.impl;
 
 import io.swagslash.gametrackerserver.config.AppProperties;
 import io.swagslash.gametrackerserver.dto.webapp.GameDTO;
+import io.swagslash.gametrackerserver.dto.webapp.TagDTO;
 import io.swagslash.gametrackerserver.igdbconsumer.IGDBApi;
 import io.swagslash.gametrackerserver.igdbconsumer.IGDBWrapper;
 import io.swagslash.gametrackerserver.igdbconsumer.model.IGDBGame;
+import io.swagslash.gametrackerserver.igdbconsumer.model.IGDBGameMode;
+import io.swagslash.gametrackerserver.igdbconsumer.model.IGDBGenre;
 import io.swagslash.gametrackerserver.model.Game;
 import io.swagslash.gametrackerserver.repository.GameRepository;
 import io.swagslash.gametrackerserver.service.GameService;
 import io.swagslash.gametrackerserver.service.UserService;
+import io.swagslash.gametrackerserver.util.EntityDTOConverter;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -66,7 +70,7 @@ public class GameServiceImpl implements GameService {
 
         List<GameDTO> dtos = new ArrayList<>();
         for (IGDBGame game : games) {
-            dtos.add(igdbGameToDTO(game));
+            dtos.add(igdbGameToDTO(game, igdb));
         }
 
         return dtos;
@@ -78,10 +82,26 @@ public class GameServiceImpl implements GameService {
     }
 
     private GameDTO entityToDTO(Game entity) {
-        return new GameDTO(entity.getName(), entity.getImageId());
+        return new GameDTO(entity.getName(),
+                entity.getImageId(),
+                EntityDTOConverter.tagListToDTO(entity.getGenres()),
+                EntityDTOConverter.tagListToDTO(entity.getGameModes())
+        );
     }
 
-    private GameDTO igdbGameToDTO(IGDBGame game) {
-        return new GameDTO(game.getName(), String.valueOf(game.getId()));
+    private GameDTO igdbGameToDTO(IGDBGame game, IGDBApi igdb) {
+        GameDTO dto = new GameDTO(game.getName());
+        try {
+            dto.setImageId((igdb.getCover(game)).getImage_id());
+            for (IGDBGameMode gameMode : igdb.getGameModes(game)) {
+                dto.getGamemodes().add(new TagDTO(gameMode.getName(), gameMode.getSlug()));
+            }
+            for (IGDBGenre genre : igdb.getGenres(game)) {
+                dto.getGenres().add(new TagDTO(genre.getName(), genre.getSlug()));
+            }
+        } catch (Exception e) {
+
+        }
+        return dto;
     }
 }
