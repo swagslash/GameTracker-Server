@@ -66,11 +66,15 @@ public class GameServiceImpl implements GameService {
 
         List<GameDTO> dtos = new ArrayList<>();
         for (IGDBGame game : games) {
-
             dtos.add(igdbGameToDTO(game));
         }
 
         return dtos;
+    }
+
+    @Override
+    public void markGamesAsOwned(List<GameDTO> games) {
+
     }
 
     private GameDTO entityToDTO(Game entity) {

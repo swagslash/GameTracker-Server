@@ -28,4 +28,10 @@ public class WebappController {
     public List<GameDTO> findBySearch(@RequestParam String term) {
         return gameService.findBySearch(term);
     }
+
+    @PostMapping("/games/mark")
+    @PreAuthorize("hasRole('USER')")
+    public void markGamesAsOwned(@RequestBody List<GameDTO> games) {
+        gameService.markGamesAsOwned(games);
+    }
 }
