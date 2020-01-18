@@ -1,5 +1,6 @@
 package io.swagslash.gametrackerserver.model;
 
+import io.swagslash.gametrackerserver.enums.TagTypeEnum;
 import io.swagslash.gametrackerserver.model.ms.GameMS;
 
 import javax.persistence.Entity;
@@ -7,6 +8,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "Game")
@@ -37,5 +39,17 @@ public class Game extends GameMS {
 
     public void setUsers(List<User> users) {
         this.users = users;
+    }
+
+    public List<Tag> getGenres() {
+        return tags.stream()
+                .filter(tag -> tag.getType().equals(TagTypeEnum.GENRE))
+                .collect(Collectors.toList());
+    }
+
+    public List<Tag> getGameModes() {
+        return tags.stream()
+                .filter(tag -> tag.getType().equals(TagTypeEnum.GENRE))
+                .collect(Collectors.toList());
     }
 }

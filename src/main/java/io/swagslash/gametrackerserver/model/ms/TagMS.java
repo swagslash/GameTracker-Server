@@ -1,5 +1,6 @@
 package io.swagslash.gametrackerserver.model.ms;
 
+import io.swagslash.gametrackerserver.enums.TagTypeEnum;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.GeneratedValue;
@@ -26,6 +27,9 @@ public class TagMS implements Serializable {
     @NotBlank
     private String slug;
 
+    @NotBlank
+    private TagTypeEnum type;
+
     public UUID getTagId() {
         return tagId;
     }
@@ -44,5 +48,13 @@ public class TagMS implements Serializable {
 
     public void setSlug(String slug) {
         this.slug = slug;
+    }
+
+    public TagTypeEnum getType() {
+        return type;
+    }
+
+    public void setType(TagTypeEnum type) {
+        this.type = type;
     }
 }
