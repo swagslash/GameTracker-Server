@@ -85,7 +85,8 @@ public class GameServiceImpl implements GameService {
         return new GameDTO(entity.getName(),
                 entity.getImageId(),
                 EntityDTOConverter.tagListToDTO(entity.getGenres()),
-                EntityDTOConverter.tagListToDTO(entity.getGameModes())
+                EntityDTOConverter.tagListToDTO(entity.getGameModes()),
+        true
         );
     }
 
@@ -102,6 +103,7 @@ public class GameServiceImpl implements GameService {
         } catch (Exception e) {
 
         }
+         
         return dto;
     }
 }

@@ -17,18 +17,22 @@ public class GameDTO {
 
     private List<TagDTO> gamemodes;
 
+    private boolean owend;
+
     public GameDTO(String name) {
         this.name = name;
         this.imageId = "";
         this.gamemodes = new ArrayList<>();
         this.genres = new ArrayList<>();
+        this.owend = false;
     }
 
-    public GameDTO(String name, String imageId, List<TagDTO> genres, List<TagDTO> gamemodes) {
+    public GameDTO(String name, String imageId, List<TagDTO> genres, List<TagDTO> gamemodes, boolean owned) {
         this.name = name;
         this.imageId = imageId;
         this.genres = genres;
         this.gamemodes = gamemodes;
+        this.owend = owned;
     }
 
     public String getName() {
