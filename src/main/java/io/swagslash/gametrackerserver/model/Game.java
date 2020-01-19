@@ -52,4 +52,8 @@ public class Game extends GameMS {
                 .filter(tag -> tag.getType().equals(TagTypeEnum.GENRE))
                 .collect(Collectors.toList());
     }
+
+    public boolean isOwnedByUser(String username) {
+        return users.stream().anyMatch(str -> str.equals(username));
+    }
 }

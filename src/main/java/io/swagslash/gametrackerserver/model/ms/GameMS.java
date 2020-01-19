@@ -20,24 +20,22 @@ public class GameMS implements Serializable {
     )
     private UUID gameId;
 
-    @NotBlank
-    private UUID dbGameId;
+    private int dbGameId;
 
     @NotBlank
     private String name;
 
-    @NotBlank
     private String imageId;
 
     public UUID getGameId() {
         return gameId;
     }
 
-    public UUID getDbGameId() {
+    public int getDbGameId() {
         return dbGameId;
     }
 
-    public void setDbGameId(UUID dbGameId) {
+    public void setDbGameId(int dbGameId) {
         this.dbGameId = dbGameId;
     }
 

@@ -3,13 +3,17 @@ package io.swagslash.gametrackerserver.service.impl;
 import io.swagslash.gametrackerserver.config.AppProperties;
 import io.swagslash.gametrackerserver.dto.webapp.GameDTO;
 import io.swagslash.gametrackerserver.dto.webapp.TagDTO;
+import io.swagslash.gametrackerserver.enums.TagTypeEnum;
 import io.swagslash.gametrackerserver.igdbconsumer.IGDBApi;
 import io.swagslash.gametrackerserver.igdbconsumer.IGDBWrapper;
 import io.swagslash.gametrackerserver.igdbconsumer.model.IGDBGame;
 import io.swagslash.gametrackerserver.igdbconsumer.model.IGDBGameMode;
 import io.swagslash.gametrackerserver.igdbconsumer.model.IGDBGenre;
 import io.swagslash.gametrackerserver.model.Game;
+import io.swagslash.gametrackerserver.model.Tag;
+import io.swagslash.gametrackerserver.model.User;
 import io.swagslash.gametrackerserver.repository.GameRepository;
+import io.swagslash.gametrackerserver.repository.TagRepository;
 import io.swagslash.gametrackerserver.service.GameService;
 import io.swagslash.gametrackerserver.service.UserService;
 import io.swagslash.gametrackerserver.util.EntityDTOConverter;
@@ -27,12 +31,15 @@ public class GameServiceImpl implements GameService {
 
     UserService userService;
 
+    TagRepository tagRepository;
+
     IGDBApi igdb;
 
-    public GameServiceImpl(AppProperties appProperties, GameRepository gameRepository, UserService userService) {
+    public GameServiceImpl(AppProperties appProperties, GameRepository gameRepository, UserService userService, TagRepository tagRepository) {
         this.appProperties = appProperties;
         this.gameRepository = gameRepository;
         this.userService = userService;
+        this.tagRepository = tagRepository;
     }
 
     @Override
@@ -61,24 +68,42 @@ public class GameServiceImpl implements GameService {
     public List<GameDTO> findBySearch(String term) {
         igdb = new IGDBWrapper(appProperties.getIgdb().getKey());
         List<IGDBGame> games;
+        List<GameDTO> dtos = new ArrayList<>();
 
         try {
-            games = igdb.searchGames(term);
+            games = new ArrayList<>(igdb.searchGames(term));
         } catch (Exception e) {
             games = new ArrayList<>();
         }
 
-        List<GameDTO> dtos = new ArrayList<>();
+        List<IGDBGame> toRemove = new ArrayList<>();
         for (IGDBGame game : games) {
-            dtos.add(igdbGameToDTO(game, igdb));
+            Game g = gameRepository.findByIgdbId(game.getId());
+            if(g != null) {
+                dtos.add(entityToDTO(g));
+                toRemove.add(game);
+            }
+        }
+
+        games.removeAll(toRemove);
+
+        for (IGDBGame game : games) {
+            GameDTO g = igdbGameToDTO(game, igdb);
+            dtos.add(g);
+            gameRepository.save(dtoToEntity(g, game));
         }
 
         return dtos;
     }
 
     @Override
-    public void markGamesAsOwned(List<GameDTO> games) {
-
+    public void markGamesAsOwned(List<String> games) {
+        User user = userService.getCurrentUser();
+        for (String game : games) {
+            if(gameRepository.findByIgdbId(Integer.valueOf(game)) != null){
+                user.getGames().add(gameRepository.findByIgdbId(Integer.valueOf(game)));
+            }
+        }
     }
 
     private GameDTO entityToDTO(Game entity) {
@@ -86,7 +111,7 @@ public class GameServiceImpl implements GameService {
                 entity.getImageId(),
                 EntityDTOConverter.tagListToDTO(entity.getGenres()),
                 EntityDTOConverter.tagListToDTO(entity.getGameModes()),
-        true
+        entity.isOwnedByUser(userService.getCurrentUser().getUsername())
         );
     }
 
@@ -105,5 +130,32 @@ public class GameServiceImpl implements GameService {
         }
          
         return dto;
+    }
+
+    private Game dtoToEntity (GameDTO dto, IGDBGame igdbGame) {
+        Game game = new Game();
+        game.setName(dto.getName());
+        game.setDbGameId(igdbGame.getId());
+        game.setImageId(dto.getImageId());
+
+        for (TagDTO genre : dto.getGenres()) {
+            Tag t = new Tag();
+            t.setName(genre.getName());
+            t.setSlug(genre.getSlug());
+            t.setType(TagTypeEnum.GENRE);
+            tagRepository.save(t);
+            game.getGenres().add(t);
+        }
+
+        for (TagDTO gamemode : dto.getGamemodes()) {
+            Tag t = new Tag();
+            t.setName(gamemode.getName());
+            t.setSlug(gamemode.getSlug());
+            t.setType(TagTypeEnum.GAMEMODE);
+            tagRepository.save(t);
+            game.getGameModes().add(t);
+        }
+
+        return game;
     }
 }

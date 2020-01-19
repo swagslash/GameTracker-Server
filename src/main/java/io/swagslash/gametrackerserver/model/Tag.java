@@ -16,8 +16,8 @@ public class Tag extends TagMS {
     @ManyToMany
     @JoinTable(
             name = "game_tag",
-            joinColumns = @JoinColumn(name = "dbTagId"),
-            inverseJoinColumns = @JoinColumn(name = "dbGameId")
+            joinColumns = @JoinColumn(name = "tagId"),
+            inverseJoinColumns = @JoinColumn(name = "gameId")
     )
     private List<Game> games;
 

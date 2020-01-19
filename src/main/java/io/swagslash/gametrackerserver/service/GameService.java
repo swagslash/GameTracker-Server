@@ -12,5 +12,5 @@ public interface GameService {
 
     List<GameDTO> findBySearch(String term);
 
-    void markGamesAsOwned(List<GameDTO> games);
+    void markGamesAsOwned(List<String> games);
 }
