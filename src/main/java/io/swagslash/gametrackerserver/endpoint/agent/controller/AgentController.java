@@ -1,7 +1,7 @@
 package io.swagslash.gametrackerserver.endpoint.agent.controller;
 
-import io.swagslash.gametrackerserver.exception.BadRequestException;
 import io.swagslash.gametrackerserver.dto.agent.AgentGame;
+import io.swagslash.gametrackerserver.exception.BadRequestException;
 import io.swagslash.gametrackerserver.service.AuthenticationService;
 import org.springframework.web.bind.annotation.*;
 

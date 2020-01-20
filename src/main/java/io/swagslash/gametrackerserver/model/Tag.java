@@ -2,7 +2,10 @@ package io.swagslash.gametrackerserver.model;
 
 import io.swagslash.gametrackerserver.model.ms.TagMS;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
 
