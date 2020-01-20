@@ -13,18 +13,18 @@ public class GameDTO {
 
     private String imageId;
 
-    private List<GameDTO> genres;
+    private List<TagDTO> genres;
 
-    private List<GameDTO> gamemodes;
+    private List<TagDTO> gamemodes;
 
-    public GameDTO(String name, String imageId) {
+    public GameDTO(String name) {
         this.name = name;
-        this.imageId = imageId;
+        this.imageId = "";
         this.gamemodes = new ArrayList<>();
         this.genres = new ArrayList<>();
     }
 
-    public GameDTO(String name, String imageId, List<GameDTO> genres, List<GameDTO> gamemodes) {
+    public GameDTO(String name, String imageId, List<TagDTO> genres, List<TagDTO> gamemodes) {
         this.name = name;
         this.imageId = imageId;
         this.genres = genres;
@@ -47,19 +47,19 @@ public class GameDTO {
         this.imageId = imageId;
     }
 
-    public List<GameDTO> getGenres() {
+    public List<TagDTO> getGenres() {
         return genres;
     }
 
-    public void setGenres(List<GameDTO> genres) {
+    public void setGenres(List<TagDTO> genres) {
         this.genres = genres;
     }
 
-    public List<GameDTO> getGamemodes() {
+    public List<TagDTO> getGamemodes() {
         return gamemodes;
     }
 
-    public void setGamemodes(List<GameDTO> gamemodes) {
+    public void setGamemodes(List<TagDTO> gamemodes) {
         this.gamemodes = gamemodes;
     }
 }

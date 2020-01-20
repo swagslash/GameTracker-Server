@@ -17,15 +17,23 @@ public class WebappController {
         this.gameService = gameService;
     }
 
-    @GetMapping("/games/user")
+    @PostMapping("/games/user")
     @PreAuthorize("hasRole('USER')")
     public List<GameDTO> findAllByUser() {
         return gameService.findAllByUser();
     }
 
-    @GetMapping("/games/search")
+    @PostMapping("/games/search")
     @PreAuthorize("hasRole('USER')")
     public List<GameDTO> findBySearch(@RequestParam String term) {
         return gameService.findBySearch(term);
+    }
+
+    @PostMapping("/games/add")
+    @PreAuthorize("hasRole('USER')")
+    public List<GameDTO> markGamesAsOwned(@RequestBody List<String> games) {
+        gameService.markGamesAsOwned(games);
+
+        return gameService.findAllByUser();
     }
 }

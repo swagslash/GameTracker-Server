@@ -11,4 +11,6 @@ public interface GameService {
     List<GameDTO> findAllByUser();
 
     List<GameDTO> findBySearch(String term);
+
+    void markGamesAsOwned(List<String> games);
 }

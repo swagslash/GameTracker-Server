@@ -1,24 +1,21 @@
 package io.swagslash.gametrackerserver.model.ms;
 
-import org.hibernate.annotations.GenericGenerator;
+import io.swagslash.gametrackerserver.enums.TagTypeEnum;
 
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.UUID;
 
 @MappedSuperclass
 public class TagMS implements Serializable {
 
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(
-            name = "UUID",
-            strategy = "org.hibernate.id.UUIDGenerator"
-    )
-    private UUID tagId;
+    @GeneratedValue
+    private Long tagId;
 
     @NotBlank
     private String name;
@@ -26,7 +23,11 @@ public class TagMS implements Serializable {
     @NotBlank
     private String slug;
 
-    public UUID getTagId() {
+    @NotNull
+    @Enumerated
+    private TagTypeEnum type;
+
+    public Long getTagId() {
         return tagId;
     }
 
@@ -44,5 +45,13 @@ public class TagMS implements Serializable {
 
     public void setSlug(String slug) {
         this.slug = slug;
+    }
+
+    public TagTypeEnum getType() {
+        return type;
+    }
+
+    public void setType(TagTypeEnum type) {
+        this.type = type;
     }
 }

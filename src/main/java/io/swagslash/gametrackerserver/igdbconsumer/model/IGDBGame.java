@@ -1,6 +1,7 @@
 package io.swagslash.gametrackerserver.igdbconsumer.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.google.common.base.Objects;
 
 import java.util.Arrays;
 
@@ -67,5 +68,18 @@ public class IGDBGame {
                 ", genres=" + Arrays.toString(genres) +
                 ", game_modes=" + Arrays.toString(game_modes) +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        IGDBGame igdbGame = (IGDBGame) o;
+        return id == igdbGame.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
     }
 }
