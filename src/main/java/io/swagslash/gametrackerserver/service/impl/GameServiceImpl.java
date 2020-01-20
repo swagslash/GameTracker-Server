@@ -110,8 +110,7 @@ public class GameServiceImpl implements GameService {
         return new GameDTO(entity.getName(),
                 entity.getImageId(),
                 EntityDTOConverter.tagListToDTO(entity.getGenres()),
-                EntityDTOConverter.tagListToDTO(entity.getGameModes()),
-        entity.isOwnedByUser(userService.getCurrentUser().getUsername())
+                EntityDTOConverter.tagListToDTO(entity.getGameModes())
         );
     }
 

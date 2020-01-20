@@ -24,7 +24,7 @@ public class GameDTO {
         this.genres = new ArrayList<>();
     }
 
-    public GameDTO(String name, String imageId, List<TagDTO> genres, List<TagDTO> gamemodes, boolean owned) {
+    public GameDTO(String name, String imageId, List<TagDTO> genres, List<TagDTO> gamemodes) {
         this.name = name;
         this.imageId = imageId;
         this.genres = genres;
