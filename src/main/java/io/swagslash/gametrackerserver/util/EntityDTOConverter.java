@@ -8,6 +8,8 @@ import java.util.List;
 
 public class EntityDTOConverter {
 
+    private EntityDTOConverter() {}
+
     public static List<TagDTO> tagListToDTO (List<Tag> tags) {
         List<TagDTO> dtos = new ArrayList<>();
         for (Tag tag : tags) {
