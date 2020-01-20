@@ -52,7 +52,7 @@ public class Game extends GameMS {
 
     public List<Tag> getGameModes() {
         return tags.stream()
-                .filter(tag -> tag.getType().equals(TagTypeEnum.GENRE))
+                .filter(tag -> tag.getType().equals(TagTypeEnum.GAMEMODE))
                 .collect(Collectors.toList());
     }
 
