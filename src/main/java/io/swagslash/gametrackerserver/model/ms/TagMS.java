@@ -17,12 +17,8 @@ import java.util.UUID;
 public class TagMS implements Serializable {
 
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(
-            name = "UUID",
-            strategy = "org.hibernate.id.UUIDGenerator"
-    )
-    private UUID tagId;
+    @GeneratedValue
+    private Long tagId;
 
     @NotBlank
     private String name;
@@ -34,7 +30,7 @@ public class TagMS implements Serializable {
     @Enumerated
     private TagTypeEnum type;
 
-    public UUID getTagId() {
+    public Long getTagId() {
         return tagId;
     }
 

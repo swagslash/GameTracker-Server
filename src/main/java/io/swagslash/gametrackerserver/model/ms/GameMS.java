@@ -1,24 +1,17 @@
 package io.swagslash.gametrackerserver.model.ms;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
-import java.util.UUID;
 
 @MappedSuperclass
 public class GameMS implements Serializable {
 
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(
-            name = "UUID",
-            strategy = "org.hibernate.id.UUIDGenerator"
-    )
-    private UUID gameId;
+    @GeneratedValue
+    private Long gameId;
 
     private int dbGameId;
 
@@ -27,7 +20,7 @@ public class GameMS implements Serializable {
 
     private String imageId;
 
-    public UUID getGameId() {
+    public Long getGameId() {
         return gameId;
     }
 

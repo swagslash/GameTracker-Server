@@ -3,9 +3,7 @@ package io.swagslash.gametrackerserver.model;
 import io.swagslash.gametrackerserver.enums.TagTypeEnum;
 import io.swagslash.gametrackerserver.model.ms.GameMS;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,7 +12,12 @@ import java.util.stream.Collectors;
 @Table(name = "Game")
 public class Game extends GameMS {
 
-    @ManyToMany(mappedBy = "games")
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "game_tag",
+            joinColumns = @JoinColumn(name = "tag_Id"),
+            inverseJoinColumns = @JoinColumn(name = "game_Id")
+    )
     private List<Tag> tags;
 
     @ManyToMany(mappedBy = "games")

@@ -143,8 +143,7 @@ public class GameServiceImpl implements GameService {
             t.setName(genre.getName());
             t.setSlug(genre.getSlug());
             t.setType(TagTypeEnum.GENRE);
-            tagRepository.save(t);
-            game.getGenres().add(t);
+            game.getTags().add(t);
         }
 
         for (TagDTO gamemode : dto.getGamemodes()) {
@@ -152,8 +151,7 @@ public class GameServiceImpl implements GameService {
             t.setName(gamemode.getName());
             t.setSlug(gamemode.getSlug());
             t.setType(TagTypeEnum.GAMEMODE);
-            tagRepository.save(t);
-            game.getGameModes().add(t);
+            game.getTags().add(t);
         }
 
         return game;

@@ -36,5 +36,4 @@ public class WebappController {
 
         return gameService.findAllByUser();
     }
-
 }

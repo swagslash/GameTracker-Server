@@ -13,12 +13,8 @@ import java.util.List;
 @Table(name = "Tag")
 public class Tag extends TagMS {
 
-    @ManyToMany
-    @JoinTable(
-            name = "game_tag",
-            joinColumns = @JoinColumn(name = "tagId"),
-            inverseJoinColumns = @JoinColumn(name = "gameId")
-    )
+    @ManyToMany(mappedBy = "tags",
+            cascade = CascadeType.ALL)
     private List<Game> games;
 
     public Tag() {
