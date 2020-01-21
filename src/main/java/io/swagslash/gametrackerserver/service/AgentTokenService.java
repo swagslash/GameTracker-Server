@@ -1,6 +1,5 @@
 package io.swagslash.gametrackerserver.service;
 
-import io.swagslash.gametrackerserver.exception.BadRequestException;
 import io.swagslash.gametrackerserver.model.User;
 
 import java.util.List;

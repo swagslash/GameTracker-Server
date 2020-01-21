@@ -1,6 +1,5 @@
 package io.swagslash.gametrackerserver.service.impl;
 
-import io.swagslash.gametrackerserver.exception.BadRequestException;
 import io.swagslash.gametrackerserver.model.AgentToken;
 import io.swagslash.gametrackerserver.model.User;
 import io.swagslash.gametrackerserver.model.ms.AgentTokenMS;
