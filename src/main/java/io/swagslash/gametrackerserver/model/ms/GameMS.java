@@ -1,5 +1,7 @@
 package io.swagslash.gametrackerserver.model.ms;
 
+import org.checkerframework.common.aliasing.qual.Unique;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
@@ -13,6 +15,7 @@ public class GameMS implements Serializable {
     @GeneratedValue
     private Long gameId;
 
+    @Unique
     private int dbGameId;
 
     @NotBlank
