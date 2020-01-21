@@ -1,10 +1,11 @@
 package io.swagslash.gametrackerserver.model;
 
 import io.swagslash.gametrackerserver.model.ms.AgentTokenMS;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "AgentToken")

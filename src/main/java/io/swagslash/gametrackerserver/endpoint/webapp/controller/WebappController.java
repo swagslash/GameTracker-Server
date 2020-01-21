@@ -4,7 +4,10 @@ import io.swagslash.gametrackerserver.dto.webapp.GameDTO;
 import io.swagslash.gametrackerserver.service.AgentTokenService;
 import io.swagslash.gametrackerserver.service.GameService;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 

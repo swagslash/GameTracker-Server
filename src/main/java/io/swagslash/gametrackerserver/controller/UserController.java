@@ -5,11 +5,8 @@ import io.swagslash.gametrackerserver.model.User;
 import io.swagslash.gametrackerserver.repository.UserRepository;
 import io.swagslash.gametrackerserver.security.CurrentUser;
 import io.swagslash.gametrackerserver.security.UserPrincipal;
-import io.swagslash.gametrackerserver.service.AgentTokenService;
-import io.swagslash.gametrackerserver.service.AuthenticationService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 

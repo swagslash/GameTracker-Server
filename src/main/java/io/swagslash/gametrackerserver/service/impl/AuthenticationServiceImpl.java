@@ -4,7 +4,6 @@ import io.swagslash.gametrackerserver.config.AppProperties;
 import io.swagslash.gametrackerserver.enums.AuthProvider;
 import io.swagslash.gametrackerserver.enums.ResponseError;
 import io.swagslash.gametrackerserver.exception.BadRequestException;
-import io.swagslash.gametrackerserver.model.AgentToken;
 import io.swagslash.gametrackerserver.model.User;
 import io.swagslash.gametrackerserver.payload.AuthResponse;
 import io.swagslash.gametrackerserver.payload.LoginRequest;
@@ -20,8 +19,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.UUID;
 
 @Service
 public class AuthenticationServiceImpl implements AuthenticationService {
