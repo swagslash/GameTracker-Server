@@ -10,9 +10,4 @@ public interface AuthenticationService {
     AuthResponse registerUser(SignUpRequest request) throws BadRequestException;
 
     AuthResponse loginUser(LoginRequest request) throws BadRequestException;
-
-    boolean isValidAgentKey(String key) throws BadRequestException;
-
-    String getAgentToken() throws BadRequestException;
-
 }

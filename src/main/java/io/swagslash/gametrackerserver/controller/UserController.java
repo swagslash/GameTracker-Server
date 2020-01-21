@@ -5,6 +5,7 @@ import io.swagslash.gametrackerserver.model.User;
 import io.swagslash.gametrackerserver.repository.UserRepository;
 import io.swagslash.gametrackerserver.security.CurrentUser;
 import io.swagslash.gametrackerserver.security.UserPrincipal;
+import io.swagslash.gametrackerserver.service.AgentTokenService;
 import io.swagslash.gametrackerserver.service.AuthenticationService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,11 +19,11 @@ public class UserController {
 
     private UserRepository userRepository;
 
-    private AuthenticationService authService;
+    private AgentTokenService tokenService;
 
-    public UserController(UserRepository userRepository, AuthenticationService authService) {
+    public UserController(UserRepository userRepository, AgentTokenService tokenService) {
         this.userRepository = userRepository;
-        this.authService = authService;
+        this.tokenService = tokenService;
     }
 
     @GetMapping("/me")
@@ -35,6 +36,6 @@ public class UserController {
     @PostMapping("/getAgentToken")
     @PreAuthorize("hasRole('USER')")
     public String getAgentToken() {
-        return authService.getAgentToken();
+        return tokenService.getAgentToken();
     }
 }

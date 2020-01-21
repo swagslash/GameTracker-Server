@@ -70,27 +70,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         return new AuthResponse(token, user.getUsername(), appProperties.getAuth().getTokenExpirationMsec(), user.getEmail());
     }
 
-    @Override
-    public boolean isValidAgentKey(String key) throws BadRequestException {
-        AgentToken token = tokenRepository.findByToken(key);
-        if(token == null) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String getAgentToken() throws BadRequestException {
-        AgentToken token = new AgentToken();
-        User user = userService.getCurrentUser();
-
-        token.setUserId(user.getUserId());
-        token.setToken(UUID.randomUUID().toString());
-        tokenRepository.save(token);
-
-        return token.getToken();
-    }
-
     private String getTokenForRequest(LoginRequest request) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
