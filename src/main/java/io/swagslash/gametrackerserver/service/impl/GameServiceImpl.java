@@ -113,13 +113,12 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public void markGamesAsOwnedAgent(List<AgentGame> games, String key) {
-        User user = tokenService.getUserByToken(key);
-        System.out.println("");
+        //TODO: Implement Marking for Agent
     }
 
     @Override
     public List<GameDTO> compare(List<String> username) {
-        return null;
+        return new ArrayList<>();
     }
 
     private GameDTO entityToDTO(Game entity) {
