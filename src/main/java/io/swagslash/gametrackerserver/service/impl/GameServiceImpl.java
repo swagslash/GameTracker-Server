@@ -1,6 +1,7 @@
 package io.swagslash.gametrackerserver.service.impl;
 
 import io.swagslash.gametrackerserver.config.AppProperties;
+import io.swagslash.gametrackerserver.dto.agent.AgentGame;
 import io.swagslash.gametrackerserver.dto.webapp.GameDTO;
 import io.swagslash.gametrackerserver.dto.webapp.TagDTO;
 import io.swagslash.gametrackerserver.enums.TagTypeEnum;
@@ -14,6 +15,7 @@ import io.swagslash.gametrackerserver.model.Tag;
 import io.swagslash.gametrackerserver.model.User;
 import io.swagslash.gametrackerserver.repository.GameRepository;
 import io.swagslash.gametrackerserver.repository.TagRepository;
+import io.swagslash.gametrackerserver.service.AgentTokenService;
 import io.swagslash.gametrackerserver.service.GameService;
 import io.swagslash.gametrackerserver.service.UserService;
 import io.swagslash.gametrackerserver.util.EntityDTOConverter;
@@ -33,13 +35,16 @@ public class GameServiceImpl implements GameService {
 
     TagRepository tagRepository;
 
+    AgentTokenService tokenService;
+
     IGDBApi igdb;
 
-    public GameServiceImpl(AppProperties appProperties, GameRepository gameRepository, UserService userService, TagRepository tagRepository) {
+    public GameServiceImpl(AppProperties appProperties, GameRepository gameRepository, UserService userService, TagRepository tagRepository, AgentTokenService tokenService) {
         this.appProperties = appProperties;
         this.gameRepository = gameRepository;
         this.userService = userService;
         this.tagRepository = tagRepository;
+        this.tokenService = tokenService;
     }
 
     @Override
@@ -104,6 +109,16 @@ public class GameServiceImpl implements GameService {
                 user.getGames().add(gameRepository.findByIgdbId(Integer.valueOf(game)));
             }
         }
+    }
+
+    @Override
+    public void markGamesAsOwnedAgent(List<AgentGame> games, String key) {
+        //TODO: Implement Marking for Agent
+    }
+
+    @Override
+    public List<GameDTO> compare(List<String> username) {
+        return new ArrayList<>();
     }
 
     private GameDTO entityToDTO(Game entity) {
