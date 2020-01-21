@@ -26,7 +26,7 @@ public class AgentTokenServiceImpl implements AgentTokenService {
     }
 
     @Override
-    public boolean isValidAgentKey(String key) throws BadRequestException {
+    public boolean isValidAgentKey(String key) {
         AgentToken token = tokenRepository.findByToken(key);
         if(token == null) {
             return false;
@@ -36,7 +36,7 @@ public class AgentTokenServiceImpl implements AgentTokenService {
     }
 
     @Override
-    public String getAgentToken() throws BadRequestException {
+    public String getAgentToken() {
         AgentToken token = new AgentToken();
         User user = userService.getCurrentUser();
 

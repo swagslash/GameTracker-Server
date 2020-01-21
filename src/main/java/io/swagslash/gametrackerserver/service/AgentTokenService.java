@@ -7,9 +7,9 @@ import java.util.List;
 
 public interface AgentTokenService {
 
-    boolean isValidAgentKey(String key) throws BadRequestException;
+    boolean isValidAgentKey(String key);
 
-    String getAgentToken() throws BadRequestException;
+    String getAgentToken();
 
     User getUserByToken(String token);
 
