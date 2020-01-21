@@ -16,4 +16,6 @@ public interface GameService {
     void markGamesAsOwned(List<String> games);
 
     void markGamesAsOwnedAgent(List<AgentGame> games, String key);
+
+    List<GameDTO> compare(List<String> username);
 }

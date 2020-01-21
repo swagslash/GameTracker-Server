@@ -29,7 +29,7 @@ public class WebappController {
 
     @PostMapping("/games/search")
     @PreAuthorize("hasRole('USER')")
-    public List<GameDTO> findBySearch(@RequestParam String term) {
+    public List<GameDTO> findBySearch(@RequestBody String term) {
         return gameService.findBySearch(term);
     }
 
@@ -39,6 +39,12 @@ public class WebappController {
         gameService.markGamesAsOwned(games);
 
         return gameService.findAllByUser();
+    }
+
+    @PostMapping("/games/compare")
+    @PreAuthorize("hasRole('USER')")
+    public List<GameDTO> compare(@RequestBody List<String> usernames) {
+        return gameService.compare(usernames);
     }
 
     @PostMapping("/token/user")
@@ -55,7 +61,7 @@ public class WebappController {
 
     @PostMapping("/token/remove")
     @PreAuthorize("hasRole('USER')")
-    public String removeAgentToken(@RequestParam String token) {
+    public String removeAgentToken(@RequestBody String token) {
         return tokenService.getAgentToken();
     }
 }

@@ -117,6 +117,11 @@ public class GameServiceImpl implements GameService {
         System.out.println("");
     }
 
+    @Override
+    public List<GameDTO> compare(List<String> username) {
+        return null;
+    }
+
     private GameDTO entityToDTO(Game entity) {
         return new GameDTO(entity.getName(),
                 entity.getImageId(),
