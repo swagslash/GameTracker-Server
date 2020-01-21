@@ -1,6 +1,7 @@
 package io.swagslash.gametrackerserver.endpoint.webapp.controller;
 
 import io.swagslash.gametrackerserver.dto.webapp.GameDTO;
+import io.swagslash.gametrackerserver.service.AgentTokenService;
 import io.swagslash.gametrackerserver.service.GameService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -13,8 +14,11 @@ public class WebappController {
 
     private GameService gameService;
 
-    public WebappController(GameService gameService) {
+    private AgentTokenService tokenService;
+
+    public WebappController(GameService gameService, AgentTokenService tokenService) {
         this.gameService = gameService;
+        this.tokenService = tokenService;
     }
 
     @PostMapping("/games/user")
@@ -35,5 +39,23 @@ public class WebappController {
         gameService.markGamesAsOwned(games);
 
         return gameService.findAllByUser();
+    }
+
+    @PostMapping("/token/user")
+    @PreAuthorize("hasRole('USER')")
+    public List<String> getTokensByUser () {
+        return tokenService.findAllByUser();
+    }
+
+    @PostMapping("/token/add")
+    @PreAuthorize("hasRole('USER')")
+    public String addAgentToken() {
+        return tokenService.getAgentToken();
+    }
+
+    @PostMapping("/token/remove")
+    @PreAuthorize("hasRole('USER')")
+    public String removeAgentToken(@RequestParam String token) {
+        return tokenService.getAgentToken();
     }
 }

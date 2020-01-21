@@ -19,11 +19,8 @@ public class UserController {
 
     private UserRepository userRepository;
 
-    private AgentTokenService tokenService;
-
-    public UserController(UserRepository userRepository, AgentTokenService tokenService) {
+    public UserController(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.tokenService = tokenService;
     }
 
     @GetMapping("/me")
@@ -31,11 +28,5 @@ public class UserController {
     public User getCurrentUser(@CurrentUser UserPrincipal userPrincipal) {
         return userRepository.findById(userPrincipal.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", userPrincipal.getId()));
-    }
-
-    @PostMapping("/getAgentToken")
-    @PreAuthorize("hasRole('USER')")
-    public String getAgentToken() {
-        return tokenService.getAgentToken();
     }
 }
