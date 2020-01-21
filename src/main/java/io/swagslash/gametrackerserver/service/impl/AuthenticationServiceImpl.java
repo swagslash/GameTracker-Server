@@ -33,18 +33,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     private TokenProvider tokenProvider;
 
-    private UserService userService;
-
-    private AgentTokenRepository tokenRepository;
-
-    public AuthenticationServiceImpl(UserRepository userRepository, AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder, AppProperties appProperties, TokenProvider tokenProvider, UserService userService, AgentTokenRepository tokenRepository) {
+    public AuthenticationServiceImpl(UserRepository userRepository, AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder, AppProperties appProperties, TokenProvider tokenProvider) {
         this.userRepository = userRepository;
         this.authenticationManager = authenticationManager;
         this.passwordEncoder = passwordEncoder;
         this.appProperties = appProperties;
         this.tokenProvider = tokenProvider;
-        this.userService = userService;
-        this.tokenRepository = tokenRepository;
     }
 
     @Override
