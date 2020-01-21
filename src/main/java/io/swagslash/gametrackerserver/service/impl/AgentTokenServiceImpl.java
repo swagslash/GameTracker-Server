@@ -28,11 +28,8 @@ public class AgentTokenServiceImpl implements AgentTokenService {
     @Override
     public boolean isValidAgentKey(String key) {
         AgentToken token = tokenRepository.findByToken(key);
-        if(token == null) {
-            return false;
-        }
 
-        return true;
+        return token == null ? false : true;
     }
 
     @Override
