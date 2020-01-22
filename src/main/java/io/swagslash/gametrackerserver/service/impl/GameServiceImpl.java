@@ -126,8 +126,21 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public List<GameDTO> compare(List<String> username) {
-        return new ArrayList<>();
+    public List<GameDTO> compare(List<String> usernames) {
+        List<User> userList = new ArrayList<>();
+        User currentUser = userService.getCurrentUser();
+        for (String username : usernames) {
+            userList.add(userService.getUserByName(username));
+        }
+
+        List<GameDTO> dtos = new ArrayList<>();
+        for (Game game : currentUser.getGames()) {
+            if(game.getUsers().containsAll(userList)) {
+                dtos.add(entityToDTO(game));
+            }
+        }
+
+        return dtos;
     }
 
     private GameDTO entityToDTO(Game entity) {

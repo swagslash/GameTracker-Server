@@ -2,6 +2,7 @@ package io.swagslash.gametrackerserver.model.ms;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagslash.gametrackerserver.enums.AuthProvider;
+import org.checkerframework.common.aliasing.qual.Unique;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -22,6 +23,7 @@ public class UserMS implements Serializable {
     private UUID userId;
 
     @Column(nullable = false)
+    @Unique
     private String username;
 
     @Email
