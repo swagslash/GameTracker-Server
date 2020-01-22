@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService {
     public List<String> findUsernamesByTerm(String term) {
         return userRepository.findAll()
                 .stream()
-                .map(user -> user.getUsername())
+                .map(User::getUsername)
                 .filter(username -> username.contains(term))
                 .collect(Collectors.toList());
     }
