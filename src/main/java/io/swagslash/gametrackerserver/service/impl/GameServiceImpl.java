@@ -113,7 +113,15 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public void markGamesAsOwnedAgent(List<AgentGame> games, String key) {
-        //TODO: Implement Marking for Agent
+        User user = tokenService.getUserByToken(key);
+        igdb = new IGDBWrapper(appProperties.getIgdb().getKey());
+        for (AgentGame game : games) {
+            List<IGDBGame> igdbGames = igdb.searchGames(game.getGameName());
+            if(igdbGames.size() > 0) {
+                igdbGames.get(0);
+            }
+        }
+
     }
 
     @Override
@@ -123,6 +131,7 @@ public class GameServiceImpl implements GameService {
 
     private GameDTO entityToDTO(Game entity) {
         return new GameDTO(entity.getName(),
+                String.valueOf(entity.getDbGameId()),
                 entity.getImageId(),
                 EntityDTOConverter.tagListToDTO(entity.getGenres()),
                 EntityDTOConverter.tagListToDTO(entity.getGameModes())
@@ -130,7 +139,7 @@ public class GameServiceImpl implements GameService {
     }
 
     private GameDTO igdbGameToDTO(IGDBGame game, IGDBApi igdb) {
-        GameDTO dto = new GameDTO(game.getName());
+        GameDTO dto = new GameDTO(game.getName(), String.valueOf(game.getId()));
         try {
             dto.setImageId((igdb.getCover(game)).getImage_id());
             for (IGDBGameMode gameMode : igdb.getGameModes(game)) {

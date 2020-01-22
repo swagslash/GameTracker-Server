@@ -9,6 +9,8 @@ import java.util.List;
  */
 public class GameDTO {
 
+    private String dbGameId;
+
     private String name;
 
     private String imageId;
@@ -17,15 +19,17 @@ public class GameDTO {
 
     private List<TagDTO> gamemodes;
 
-    public GameDTO(String name) {
+    public GameDTO(String name, String dbGameId) {
         this.name = name;
+        this.dbGameId = dbGameId;
         this.imageId = "";
         this.gamemodes = new ArrayList<>();
         this.genres = new ArrayList<>();
     }
 
-    public GameDTO(String name, String imageId, List<TagDTO> genres, List<TagDTO> gamemodes) {
+    public GameDTO(String name, String dbGameId, String imageId, List<TagDTO> genres, List<TagDTO> gamemodes) {
         this.name = name;
+        this.dbGameId = dbGameId;
         this.imageId = imageId;
         this.genres = genres;
         this.gamemodes = gamemodes;
@@ -37,6 +41,14 @@ public class GameDTO {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDbGameId() {
+        return dbGameId;
+    }
+
+    public void setDbGameId(String dbGameId) {
+        this.dbGameId = dbGameId;
     }
 
     public String getImageId() {
