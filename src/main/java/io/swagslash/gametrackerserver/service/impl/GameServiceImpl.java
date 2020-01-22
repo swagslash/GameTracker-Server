@@ -105,8 +105,11 @@ public class GameServiceImpl implements GameService {
     public void markGamesAsOwned(List<String> games) {
         User user = userService.getCurrentUser();
         for (String game : games) {
-            if(gameRepository.findByIgdbId(Integer.valueOf(game)) != null){
-                user.getGames().add(gameRepository.findByIgdbId(Integer.valueOf(game)));
+            Game entity = gameRepository.findByIgdbId(Integer.valueOf(game));
+            if(entity != null){
+                if(!user.getGames().contains(entity)) {
+                    user.getGames().add(entity);
+                }
             }
         }
         userService.save(user);
