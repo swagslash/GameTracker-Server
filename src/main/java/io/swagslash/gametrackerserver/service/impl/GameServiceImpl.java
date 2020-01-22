@@ -95,7 +95,7 @@ public class GameServiceImpl implements GameService {
         for (IGDBGame game : games) {
             GameDTO g = igdbGameToDTO(game, igdb);
             dtos.add(g);
-            gameRepository.save(dtoToEntity(g, game));
+            gameRepository.save(dtoToEntity(g));
         }
 
         return dtos;
@@ -119,13 +119,20 @@ public class GameServiceImpl implements GameService {
     public void markGamesAsOwnedAgent(List<AgentGame> games, String key) {
         User user = tokenService.getUserByToken(key);
         igdb = new IGDBWrapper(appProperties.getIgdb().getKey());
+
         for (AgentGame game : games) {
             List<IGDBGame> igdbGames = igdb.searchGames(game.getGameName());
             if(igdbGames.size() > 0) {
-                igdbGames.get(0);
+                IGDBGame g = igdbGames.get(0);
+                Game entity = gameRepository.findByIgdbId(g.getId());
+                if(entity != null) {
+                    user.getGames().add(entity);
+                } else {
+                    user.getGames().add(dtoToEntity(igdbGameToDTO(g, igdb)));
+                }
             }
         }
-
+        userService.save(user);
     }
 
     @Override
@@ -172,10 +179,10 @@ public class GameServiceImpl implements GameService {
         return dto;
     }
 
-    private Game dtoToEntity (GameDTO dto, IGDBGame igdbGame) {
+    private Game dtoToEntity (GameDTO dto) {
         Game game = new Game();
         game.setName(dto.getName());
-        game.setDbGameId(igdbGame.getId());
+        game.setDbGameId(Integer.valueOf(dto.getDbGameId()));
         game.setImageId(dto.getImageId());
 
         for (TagDTO genre : dto.getGenres()) {
