@@ -7,6 +7,9 @@ import io.swagslash.gametrackerserver.service.UserService;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -31,5 +34,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUserByName(String username) {
         return userRepository.findByUsername(username);
+    }
+
+    @Override
+    public List<String> findUsernamesByTerm(String term) {
+        return userRepository.findAll()
+                .stream()
+                .map(user -> user.getUsername())
+                .filter(username -> username.contains(term))
+                .collect(Collectors.toList());
     }
 }
