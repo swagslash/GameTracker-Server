@@ -109,6 +109,7 @@ public class GameServiceImpl implements GameService {
                 user.getGames().add(gameRepository.findByIgdbId(Integer.valueOf(game)));
             }
         }
+        userService.save(user);
     }
 
     @Override
