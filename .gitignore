@@ -68,3 +68,5 @@ src/main/resources/application.yaml
 .idea/misc.xml
 
 .idea/modules.xml
+
+.idea/codeStyles/codeStyleConfig.xml

@@ -95,7 +95,7 @@ public class GameServiceImpl implements GameService {
         for (IGDBGame game : games) {
             GameDTO g = igdbGameToDTO(game, igdb);
             dtos.add(g);
-            gameRepository.save(dtoToEntity(g, game));
+            gameRepository.save(dtoToEntity(g));
         }
 
         return dtos;
@@ -105,24 +105,59 @@ public class GameServiceImpl implements GameService {
     public void markGamesAsOwned(List<String> games) {
         User user = userService.getCurrentUser();
         for (String game : games) {
-            if(gameRepository.findByIgdbId(Integer.valueOf(game)) != null){
-                user.getGames().add(gameRepository.findByIgdbId(Integer.valueOf(game)));
+            Game entity = gameRepository.findByIgdbId(Integer.valueOf(game));
+            if(entity != null){
+                if(!user.getGames().contains(entity)) {
+                    user.getGames().add(entity);
+                }
             }
         }
+        userService.save(user);
     }
 
     @Override
     public void markGamesAsOwnedAgent(List<AgentGame> games, String key) {
-        //TODO: Implement Marking for Agent
+        User user = tokenService.getUserByToken(key);
+        igdb = new IGDBWrapper(appProperties.getIgdb().getKey());
+
+        for (AgentGame game : games) {
+            List<IGDBGame> igdbGames = igdb.searchGames(game.getGameName());
+            if(igdbGames.size() > 0) {
+                IGDBGame g = igdbGames.get(0);
+                Game entity = gameRepository.findByIgdbId(g.getId());
+                if(entity != null) {
+                    user.getGames().add(entity);
+                } else {
+                    Game persitGame = dtoToEntity(igdbGameToDTO(g, igdb));
+                    gameRepository.save(persitGame);
+                    user.getGames().add(persitGame);
+                }
+            }
+        }
+        userService.save(user);
     }
 
     @Override
-    public List<GameDTO> compare(List<String> username) {
-        return new ArrayList<>();
+    public List<GameDTO> compare(List<String> usernames) {
+        List<User> userList = new ArrayList<>();
+        User currentUser = userService.getCurrentUser();
+        for (String username : usernames) {
+            userList.add(userService.getUserByName(username));
+        }
+
+        List<GameDTO> dtos = new ArrayList<>();
+        for (Game game : currentUser.getGames()) {
+            if(game.getUsers().containsAll(userList)) {
+                dtos.add(entityToDTO(game));
+            }
+        }
+
+        return dtos;
     }
 
     private GameDTO entityToDTO(Game entity) {
         return new GameDTO(entity.getName(),
+                String.valueOf(entity.getDbGameId()),
                 entity.getImageId(),
                 EntityDTOConverter.tagListToDTO(entity.getGenres()),
                 EntityDTOConverter.tagListToDTO(entity.getGameModes())
@@ -130,7 +165,7 @@ public class GameServiceImpl implements GameService {
     }
 
     private GameDTO igdbGameToDTO(IGDBGame game, IGDBApi igdb) {
-        GameDTO dto = new GameDTO(game.getName());
+        GameDTO dto = new GameDTO(game.getName(), String.valueOf(game.getId()));
         try {
             dto.setImageId((igdb.getCover(game)).getImage_id());
             for (IGDBGameMode gameMode : igdb.getGameModes(game)) {
@@ -146,10 +181,10 @@ public class GameServiceImpl implements GameService {
         return dto;
     }
 
-    private Game dtoToEntity (GameDTO dto, IGDBGame igdbGame) {
+    private Game dtoToEntity (GameDTO dto) {
         Game game = new Game();
         game.setName(dto.getName());
-        game.setDbGameId(igdbGame.getId());
+        game.setDbGameId(Integer.valueOf(dto.getDbGameId()));
         game.setImageId(dto.getImageId());
 
         for (TagDTO genre : dto.getGenres()) {
