@@ -128,7 +128,9 @@ public class GameServiceImpl implements GameService {
                 if(entity != null) {
                     user.getGames().add(entity);
                 } else {
-                    user.getGames().add(dtoToEntity(igdbGameToDTO(g, igdb)));
+                    Game persitGame = dtoToEntity(igdbGameToDTO(g, igdb));
+                    gameRepository.save(persitGame);
+                    user.getGames().add(persitGame);
                 }
             }
         }
